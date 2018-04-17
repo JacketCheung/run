@@ -8,4 +8,4 @@ from dataService import *
 
 
 if __name__ == '__main__':
-    downloadAllMinuteBar(10000000)
+    downloadAllMinuteBar(1000)
