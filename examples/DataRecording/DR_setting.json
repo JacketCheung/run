@@ -1,0 +1,18 @@
+{
+    "working": true,
+
+    "tick":
+    [
+        ["rb1810", "CTP"]
+    ],
+
+    "bar":
+    [
+        ["rb1810", "CTP"]
+    ],
+
+    "active":
+    {
+        "rb.HOT": "rb1810"
+    }
+}
