@@ -70,10 +70,10 @@ def runParentProcess():
     
     le.info(u'启动CTA策略守护父进程')
     
-    DAY_START = time(8, 45)         # 日盘启动和停止时间
+    DAY_START = time(8, 52)         # 日盘启动和停止时间
     DAY_END = time(15, 30)
     
-    NIGHT_START = time(20, 45)      # 夜盘启动和停止时间
+    NIGHT_START = time(20, 52)      # 夜盘启动和停止时间
     NIGHT_END = time(2, 45)
     
     p = None        # 子进程句柄

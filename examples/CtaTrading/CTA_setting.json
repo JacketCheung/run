@@ -3,5 +3,9 @@
         "name": "rb1810",
         "className": "ZeroStrategy",
         "vtSymbol": "rb1810"
+    }, {
+        "name": "al1810",
+        "className": "ZeroStrategy",
+        "vtSymbol": "al1806"
     }
 ]
