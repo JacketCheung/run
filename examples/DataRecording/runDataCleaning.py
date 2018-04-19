@@ -66,12 +66,12 @@ def runDataCleaning():
         
     # 遍历执行清洗
     today = datetime.now()
-    start = today - timedelta(10000)   # 清洗过去10天数据
+    start = today - timedelta(1)   # 清洗过去10天数据
     start.replace(hour=0, minute=0, second=0, microsecond=0)
     
-    for l in setting['tick']:
-        symbol = l[0]
-        cleanData(TICK_DB_NAME, symbol, start)
+    # for l in setting['tick']:
+    #     symbol = l[0]
+    #     cleanData(TICK_DB_NAME, symbol, start)
         
     for l in setting['bar']:
         symbol = l[0]
