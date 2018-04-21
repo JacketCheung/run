@@ -8,9 +8,9 @@ from time import sleep
 from pymongo import MongoClient, ASCENDING
 
 from vnpy.data.tq.vntq import TqApi
-from vnpy.trader.vtObject import VtBarData,VtTickData
+from vnpy.trader.vtObject import VtBarData
 from vnpy.trader.app.ctaStrategy.ctaBase import MINUTE_DB_NAME
-from vnpy.trader.app.ctaStrategy.ctaBase import TICK_DB_NAME
+
 
 # 加载配置
 config = open('config.json')
@@ -18,11 +18,9 @@ setting = json.load(config)
 
 MONGO_HOST = setting['MONGO_HOST']
 MONGO_PORT = setting['MONGO_PORT']
-SYMBOLS = setting['SYMBOLS']
 
 mc = MongoClient(MONGO_HOST, MONGO_PORT)        # Mongo连接
 db = mc[MINUTE_DB_NAME]                         # 数据库
-tdb = mc[TICK_DB_NAME]
 
 api = TqApi()   # 历史行情服务API对象
 api.connect()   # 连接
@@ -74,11 +72,6 @@ def onChart(symbol, seconds):
     # 移除已经完成的任务
     if symbol in taskList:
         taskList.remove(symbol)
-#----------------------------------------------------------------------
-def generateVtTick(symbol,d):
-    tick = VtTickData()
-    tick.symbol = symbol
-    tick.VtSymbol = symbol
 
 #----------------------------------------------------------------------
 def downMinuteBarBySymbol(symbol, num):
@@ -86,16 +79,16 @@ def downMinuteBarBySymbol(symbol, num):
     api.subscribe_chart(symbol, 60, num, onChart)
     
 #----------------------------------------------------------------------
-def downloadAllMinuteBar(num):
+def downloadAllMinuteBar(num, symbols):
     """下载所有配置中的合约的分钟线数据"""
     print '-' * 50
     print u'开始下载合约分钟线数据'
     print '-' * 50
     
     # 添加下载任务
-    taskList.extend(SYMBOLS)
+    taskList.extend(symbols)
     
-    for symbol in SYMBOLS:
+    for symbol in symbols:
         downMinuteBarBySymbol(str(symbol), num)
     
     while True:
@@ -106,40 +99,8 @@ def downloadAllMinuteBar(num):
             print '-' * 50
             print u'合约分钟线数据下载完成'
             print '-' * 50
-            return
-# ----------------------------------------------------------------------
-def myChart(symbol,seconds):
-    if symbol not in taskList:
-        return
-    serial = api.get_tick_serial(symbol)
-    cl = tdb[symbol]
-    cl.ensure_index([('datetime', ASCENDING)], unique=True)         # 添加索引
-
-    l = serial.values()
-    for d in l:
-        tick = None
-#----------------------------------------------------------------------
-
-def downtickBySymbol(symbol,num):
-    api.subscribe_chart(symbol,0,num,mychart)
-
-
-#----------------------------------------------------------------------
-
-
-# ----------------------------------------------------------------------
-
-
-def downloadtick(num):
-    print '-' * 50
-    print u'开始下载合约tick线数据'
-    print '-' * 50
-    # 添加下载任务
-    taskList.extend(SYMBOLS)
-
-    for symbol in SYMBOLS:
-
-        downMinuteBarBySymbol(str(symbol), num)
+            return       
+    
 
 
     
