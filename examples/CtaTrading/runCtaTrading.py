@@ -16,7 +16,7 @@ from vnpy.trader.app import ctaStrategy
 from vnpy.trader.app.ctaStrategy.ctaBase import EVENT_CTA_LOG
 
  
-#----------------------------------------------------------------------
+#------------------------------------````----------------------------------
 def runChildProcess():
     """子进程运行函数"""
     print '-'*20

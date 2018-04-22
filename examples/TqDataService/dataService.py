@@ -32,8 +32,8 @@ def generateVtBar(symbol, d):
     """生成K线"""
     bar = VtBarData()
     
-    bar.symbol = symbol
-    bar.vtSymbol = symbol
+    bar.symbol = symbol[5:]
+    bar.vtSymbol = symbol[5:]
     bar.open = d['open']
     bar.high = d['high']
     bar.low = d['low']
@@ -43,6 +43,7 @@ def generateVtBar(symbol, d):
     bar.datetime = datetime.fromtimestamp(d['datetime']/1000000000)
     bar.date = bar.datetime.strftime("%Y%m%d")
     bar.time = bar.datetime.strftime("%H:%M:%S")
+    print bar.time,symbol
     
     return bar
 
@@ -51,11 +52,14 @@ def onChart(symbol, seconds):
     """K线更新处理函数"""    
     # 避免重复记录已经完成的任务
     if symbol not in taskList:
-        return 
-    
+        print 'return'
+        return
+    else:
+        print 'nnot etue'
+    symbols = symbol[5:]
     serial = api.get_kline_serial(symbol, seconds)
-    
-    cl = db[symbol]                                                 # 集合
+    print 'serias',serial
+    cl = db[symbols]                                                 # 集合
     cl.ensure_index([('datetime', ASCENDING)], unique=True)         # 添加索引
     
     l = serial.values()
@@ -84,7 +88,6 @@ def downloadAllMinuteBar(num, symbols):
     print '-' * 50
     print u'开始下载合约分钟线数据'
     print '-' * 50
-    
     # 添加下载任务
     taskList.extend(symbols)
     

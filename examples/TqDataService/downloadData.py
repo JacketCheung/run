@@ -11,5 +11,5 @@ from dataService import *
 
 
 if __name__ == '__main__':
-    symbols = 'SHFE.rb1810'
+    symbols = ['SHFE.rb1810','SHFE.al1806','CZCE.TA809']
     downloadAllMinuteBar(1000, symbols)
